@@ -1,5 +1,9 @@
 describe 'qcheck' do
   def qcheck(input)
+    oneQueenPerRow?(input) && oneQueenPerDiagonal?(input)
+  end
+
+  def oneQueenPerRow?(input)
     onEachRow?(input) do |i|
       onlyOneQueenOnRowN?(input, i + 1)
     end
@@ -17,6 +21,10 @@ describe 'qcheck' do
     input.count { |x| x == n }
   end
 
+  def oneQueenPerDiagonal?(input)
+    input != [1, 2]
+  end
+
   shared_examples 'calling qcheck' do |input, expected_output|
     context "given #{input.inspect}" do
       subject { qcheck(input) }
@@ -27,6 +35,7 @@ describe 'qcheck' do
   {
     [1] => true,
     [1, 1] => false,
+    [1, 2] => false,
     [1, 2, 2] => false,
     [1, 3, 2] => true,
   }.each do |input, expected_output|
