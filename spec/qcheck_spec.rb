@@ -22,7 +22,9 @@ describe 'qcheck' do
   end
 
   def oneQueenPerDiagonal?(input)
-    (input[1] != input[0] + 1) && (input[1] != input[0] - 1)
+    input.each_cons(2).all? do |(i, j)|
+      (j != i + 1) && (j != i - 1)
+    end
   end
 
   shared_examples 'calling qcheck' do |input, expected_output|
@@ -38,9 +40,10 @@ describe 'qcheck' do
     [1, 2] => false,
     [1, 2, 2] => false,
     [1, 2, 3] => false,
-    [1, 3, 2] => true,
+    [1, 3, 2] => false,
     [2, 1] => false,
-    [2, 1, 3] => false
+    [2, 1, 3] => false,
+    [3, 1, 2] => false
   }.each do |input, expected_output|
     include_examples 'calling qcheck', input, expected_output
   end
