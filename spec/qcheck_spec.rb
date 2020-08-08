@@ -1,17 +1,35 @@
 describe 'qcheck' do
   def qcheck(input)
-    input == [1]
+    onEachRow?(input) do |i|
+      onlyOneQueenOnRowN?(input, i + 1)
+    end
   end
 
-  subject { qcheck(input) }
-
-  context 'given [1]' do
-    let(:input) { [1] }
-    it { is_expected.to be true }
+  def onEachRow?(input, &block)
+    input.size.times.all?(&block)
   end
 
-  context 'given [1, 1]' do
-    let(:input) { [1, 1] }
-    it { is_expected.to be false }
+  def onlyOneQueenOnRowN?(input, n)
+    queenCountOnRowN(input, n) == 1
+  end
+
+  def queenCountOnRowN(input, n)
+    input.count { |x| x == n }
+  end
+
+  shared_examples 'calling qcheck' do |input, expected_output|
+    context "given #{input.inspect}" do
+      subject { qcheck(input) }
+      it { is_expected.to be expected_output }
+    end
+  end
+
+  {
+    [1] => true,
+    [1, 1] => false,
+    [1, 2, 2] => false,
+    [1, 3, 2] => true,
+  }.each do |input, expected_output|
+    include_examples 'calling qcheck', input, expected_output
   end
 end
