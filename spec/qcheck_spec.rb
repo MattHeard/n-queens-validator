@@ -1,10 +1,17 @@
 describe 'qcheck' do
-  context 'given {1}' do
-    def qcheck(_input)
-      true
-    end
+  def qcheck(input)
+    input == [1]
+  end
 
-   subject { qcheck([1]) }
-   it { is_expected.to be true }
+  subject { qcheck(input) }
+
+  context 'given [1]' do
+    let(:input) { [1] }
+    it { is_expected.to be true }
+  end
+
+  context 'given [1, 1]' do
+    let(:input) { [1, 1] }
+    it { is_expected.to be false }
   end
 end
