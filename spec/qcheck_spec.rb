@@ -1,42 +1,9 @@
+require_relative('../src/qcheck')
+
 describe 'qcheck' do
-  def qcheck(input)
-    oneQueenPerRow?(input) && oneQueenPerDiagonal?(input)
-  end
-
-  def oneQueenPerRow?(input)
-    input.uniq == input
-  end
-
-  def onEachRow?(input, &block)
-    input.size.times.all?(&block)
-  end
-
-  def queenCountOnRowN(input, n)
-    input.count { |x| x == n }
-  end
-
-  def oneQueenPerDiagonal?(input)
-    [
-      transform_up(input),
-      transform_down(input)
-    ].all? { |input| oneQueenPerRow?(input) }
-  end
-
-  def transform_up(input)
-    transform(input, :+)
-  end
-
-  def transform(input, operator)
-    input.map.with_index { |x, i| x.public_send(operator, i) }
-  end
-
-  def transform_down(input)
-    transform(input, :-)
-  end
-
   shared_examples 'calling qcheck' do |input, expected_output|
     context "given #{input.inspect}" do
-      subject { qcheck(input) }
+      subject { QCheck.new.qcheck(input) }
       it { is_expected.to be expected_output }
     end
   end
