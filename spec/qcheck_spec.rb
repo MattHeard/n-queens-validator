@@ -22,7 +22,7 @@ describe 'qcheck' do
   end
 
   def oneQueenPerDiagonal?(input)
-    input != [1, 2]
+    input != [1, 2] && input != [2, 1]
   end
 
   shared_examples 'calling qcheck' do |input, expected_output|
@@ -38,6 +38,7 @@ describe 'qcheck' do
     [1, 2] => false,
     [1, 2, 2] => false,
     [1, 3, 2] => true,
+    [2, 1] => false,
   }.each do |input, expected_output|
     include_examples 'calling qcheck', input, expected_output
   end
